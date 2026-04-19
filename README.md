@@ -60,9 +60,9 @@ graph TD
     end
 
     subgraph Backend ["Backend — FastAPI + uvicorn"]
-        H[/api/projects] 
-        I[/api/inference/point]
-        J[/api/export]
+        H["api/projects"]
+        I["api/inference/point"]
+        J["api/export"]
         K[SAMEngine ABC]
         L[SAM2Backend]
         M[EmbeddingCache]
