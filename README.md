@@ -28,8 +28,6 @@ SAMark brings the assisted-annotation workflow of commercial platforms into your
 
 Designed for computer vision practitioners who need to label custom datasets — particularly **multi-instance, multi-class** scenes — without uploading sensitive imagery to third-party services. Initial validation has focused on forestry imagery (tree crown and trunk segmentation in Iberian *dehesa* ecosystems), but the workflow is fully domain-agnostic.
 
-> *Screenshot / demo GIF coming soon — once the Phase 2 polygon editor lands.*
-
 ---
 
 ## Why SAMark
