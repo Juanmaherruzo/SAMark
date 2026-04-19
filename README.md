@@ -241,6 +241,10 @@ samark/
 
 Contributions, issues and feature requests are welcome. Please open an issue before submitting a pull request so we can discuss the approach.
 
+This project is in active development and I am genuinely open to any form of feedback — whether that is an architectural suggestion, a workflow improvement, a bug report, or a perspective from practitioners working with different datasets or domain requirements. If you have used SAMark in your own annotation pipeline and encountered friction, I would particularly value hearing about it.
+
+Do not hesitate to open an issue simply to share an idea, even if it is not yet fully formed. Constructive criticism is as welcome as praise.
+
 ```bash
 # Run backend in development mode
 conda activate sam_studio
