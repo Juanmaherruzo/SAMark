@@ -220,21 +220,6 @@ samark/
 
 ---
 
-## Roadmap
-
-- [x] SAM 2.1 assisted segmentation with multi-level embedding cache
-- [x] Polygon and bounding box annotation
-- [x] Polygon / box editing with vertex manipulation
-- [x] YOLO-seg, YOLO-det, COCO export with configurable splits
-- [x] Class management with drag-and-drop reordering
-- [x] Full keyboard-driven workflow
-- [ ] Inline class rename / color edit
-- [ ] Multi-mask candidate picker on first SAM click
-- [ ] Auto-advance to next unannotated image after confirmation
-- [ ] Image deletion from gallery
-- [ ] GeoTIFF support + GeoJSON export with CRS
-- [ ] YOLOv11 training integration
-
 ---
 
 ## Contributing
