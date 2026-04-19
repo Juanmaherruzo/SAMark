@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-surface text-white;
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+}

@@ -1,0 +1,28 @@
+# Runtime data — never commit project images, annotations or database
+data/projects/
+data/*.db
+
+# SAM checkpoints — too large and not yours to redistribute
+*.pt
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+*.egg-info/
+dist/
+build/
+.venv/
+
+# Node
+frontend/node_modules/
+frontend/dist/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json
+.idea/
