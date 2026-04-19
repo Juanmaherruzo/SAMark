@@ -26,7 +26,26 @@
 
 SAMark brings the assisted-annotation workflow of commercial platforms into your local environment. It uses [SAM 2.1](https://github.com/facebookresearch/sam2) (Meta AI) as its segmentation backbone, wraps it in a FastAPI server with a three-level embedding cache, and exposes a Konva.js canvas frontend for fluid, keyboard-driven annotation.
 
-Designed for computer vision practitioners who need to label custom datasets — particularly **multi-instance, multi-class** scenes — without uploading sensitive imagery to third-party services.
+Designed for computer vision practitioners who need to label custom datasets — particularly **multi-instance, multi-class** scenes — without uploading sensitive imagery to third-party services. Initial validation has focused on forestry imagery (tree crown and trunk segmentation in Iberian *dehesa* ecosystems), but the workflow is fully domain-agnostic.
+
+> *Screenshot / demo GIF coming soon — once the Phase 2 polygon editor lands.*
+
+---
+
+## Why SAMark
+
+There are excellent annotation tools out there. SAMark is not trying to replace all of them — it occupies a specific niche: **local, SAM-assisted, laptop-GPU-friendly**.
+
+| Aspect | SAMark | Roboflow | CVAT | Label Studio |
+|---|---|---|---|---|
+| Data stays on your machine | Yes | No (cloud) | Yes (self-host) | Yes (self-host) |
+| SAM-assisted clicks out of the box | SAM 2.1 | Yes | Plugin | Plugin |
+| Setup complexity | Medium | None | High (Docker stack) | Medium |
+| Cost | Free | Freemium | Free | Free |
+| Runs on 4 GB VRAM laptop GPU | Yes (tiny) | N/A | Yes | Yes |
+| Opinionated forestry-tested workflow | Yes | No | No | No |
+
+If you already live inside Roboflow and your images can leave your machine, stay there — it is a great product. SAMark exists for the cases where they cannot.
 
 ---
 
@@ -43,6 +62,26 @@ Designed for computer vision practitioners who need to label custom datasets —
 | **Class management** | Named classes with hex color picker and drag-and-drop YOLO index reordering |
 | **Export pipeline** | YOLO-seg, YOLO-det, COCO JSON — configurable train/val/test splits |
 | **Fully local** | Zero telemetry, zero cloud dependency; all data stored in a portable project folder |
+
+---
+
+## Performance
+
+Reference numbers measured on the development machine — a mid-range laptop, intentionally chosen to validate that the tool remains usable on constrained hardware.
+
+**Hardware:** NVIDIA RTX 3050 Laptop GPU (4 GB VRAM), Intel i7-12700H, 16 GB RAM, Windows 11, CUDA 12.8.
+
+| Operation | Typical latency |
+|---|---|
+| First click on a new image (computes and caches image embedding) | 1.5 – 2.5 s |
+| Subsequent clicks on the same image (cache hit) | 200 – 400 ms |
+| Embedding retrieval from disk cache (previously visited image) | 10 – 30 ms |
+| Polygon extraction and simplification | < 50 ms |
+| VRAM footprint with SAM 2.1 tiny loaded + one active image | ~1.1 GB |
+
+In practice this means: opening a new image has a short warm-up, after which every prompt feels instant. Revisiting a previously annotated image is instant from the start because the embedding is read from disk rather than recomputed.
+
+Heavier SAM 2.1 variants (*small*, *base_plus*, *large*) can be slotted into the same `SAMEngine` interface without code changes if your GPU has more memory available — see the [Configuration](#configuration) section.
 
 ---
 
@@ -84,16 +123,18 @@ graph TD
     L -->|OpenCV + Shapely| C
 ```
 
+The `SAMEngine` abstract base class decouples the annotation pipeline from any specific SAM version. Swapping SAM 2.1 tiny for SAM 2.1 base_plus, or adding a SAM 3 backend in the future, is a matter of implementing one class.
+
 ---
 
 ## Quick Start
 
-> **Prerequisites:** Anaconda, NVIDIA GPU (≥ 4 GB VRAM), CUDA 12.x driver.
-> Full installation guide in [`INSTALL.md`](INSTALL.md).
+> **Prerequisites:** Python 3.11 (conda or venv), Node.js 20+, NVIDIA GPU with ≥ 4 GB VRAM, CUDA 12.x driver.
+> Full installation guide including troubleshooting in [`INSTALL.md`](INSTALL.md).
 
 ```bash
 # 1. Clone
-git clone https://github.com/<your-username>/samark.git
+git clone https://github.com/Juanmaherruzo/samark.git
 cd samark
 
 # 2. Create the Python environment and install dependencies
@@ -103,15 +144,17 @@ pip install torch==2.11.0+cu128 torchvision==0.26.0+cu128 --index-url https://do
 pip install git+https://github.com/facebookresearch/sam2.git
 pip install -r backend/requirements.txt
 
-# 3. Install frontend dependencies (Node.js required)
+# 3. Install frontend dependencies
 cd frontend && npm install && cd ..
 
-# 4. Download SAM 2.1 tiny checkpoint
+# 4. Download SAM 2.1 tiny checkpoint (~155 MB)
 #    Place sam2.1_hiera_tiny.pt in the directory set by MODELS_DIR in backend/app/config.py
 
 # 5. Launch
-start.bat        # Windows — opens browser automatically
+start.bat        # Windows — opens the browser automatically
 ```
+
+First launch can take a minute while FastAPI imports PyTorch and the frontend compiles. Subsequent launches are near-instant.
 
 ---
 
@@ -183,7 +226,7 @@ POLYGON_TOLERANCE=10.0
 # MODELS_DIR=C:\path\to\your\models
 ```
 
-The SAM model variant is intentionally hardcoded to **tiny** in `backend/app/config.py` to stay within the 4 GB VRAM budget of laptop-class GPUs. Edit `SAM_CHECKPOINT` and `SAM_CONFIG` there if you have more VRAM available.
+The SAM model variant is fixed to **tiny** in `backend/app/config.py` to stay within the 4 GB VRAM budget of laptop-class GPUs. To switch to a heavier variant, edit `SAM_CHECKPOINT` and `SAM_CONFIG` directly in that file and ensure the corresponding checkpoint is present in `MODELS_DIR`.
 
 ---
 
@@ -220,15 +263,26 @@ samark/
 
 ---
 
+## Roadmap
+
+Short-term priorities tracked in GitHub Issues:
+
+- Polygon editor: smoother handle interactions and undo granularity
+- Automatic suggestion mode: SAM 2 automask for first-pass annotations
+- Text prompts via a SAM 3 backend (once memory profile permits)
+- Linux and macOS launcher scripts (currently Windows only)
+
+Longer-term ideas are openly discussed in issues tagged `discussion`. Proposals are welcome even when they are not yet fully formed.
+
 ---
 
 ## Contributing
 
-Contributions, issues and feature requests are welcome. Please open an issue before submitting a pull request so we can discuss the approach.
+Contributions, issues, and feature requests are welcome. Please open an issue before submitting a pull request so we can discuss the approach.
 
 This project is in active development and I am genuinely open to any form of feedback — whether that is an architectural suggestion, a workflow improvement, a bug report, or a perspective from practitioners working with different datasets or domain requirements. If you have used SAMark in your own annotation pipeline and encountered friction, I would particularly value hearing about it.
 
-Do not hesitate to open an issue simply to share an idea, even if it is not yet fully formed. Constructive criticism is as welcome as praise.
+Do not hesitate to open an issue simply to share an idea. Constructive criticism is as welcome as praise.
 
 ```bash
 # Run backend in development mode
