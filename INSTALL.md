@@ -1,4 +1,4 @@
-# SAM Studio — Guía de instalación
+# SAMark — Guía de instalación
 
 Aplicación local de anotación de datasets con SAM 2.1 como motor de segmentación asistida.
 
@@ -182,7 +182,7 @@ anaconda3/
 │   └── detector_copas/    ← Node.js para el frontend (npm/vite)
 ```
 
-SAM Studio **no modifica** ningún otro entorno conda de tu máquina.
+SAMark **no modifica** ningún otro entorno conda de tu máquina.
 
 ---
 

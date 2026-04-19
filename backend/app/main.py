@@ -27,7 +27,7 @@ async def lifespan(app: FastAPI):
     sam_engine.unload_model()
 
 
-app = FastAPI(title="SAM Studio API", version="0.1.0", lifespan=lifespan)
+app = FastAPI(title="SAMark API", version="0.1.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,

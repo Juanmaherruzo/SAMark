@@ -8,9 +8,9 @@ set NPM=C:\Users\juanm\anaconda3\envs\detector_copas\npm.cmd
 
 echo Arrancando SAM Studio...
 
-start "SAM Studio - Backend" cmd /k "set KMP_DUPLICATE_LIB_OK=TRUE && cd /d %BACKEND% && %UVICORN% app.main:app --host 127.0.0.1 --port 8000 --reload"
+start "SAMark - Backend" cmd /k "set KMP_DUPLICATE_LIB_OK=TRUE && cd /d %BACKEND% && %UVICORN% app.main:app --host 127.0.0.1 --port 8000 --reload"
 
-start "SAM Studio - Frontend" cmd /k "set PATH=C:\Users\juanm\anaconda3\envs\detector_copas;%PATH% && cd /d %FRONTEND% && %NPM% run dev"
+start "SAMark - Frontend" cmd /k "set PATH=C:\Users\juanm\anaconda3\envs\detector_copas;%PATH% && cd /d %FRONTEND% && %NPM% run dev"
 
 echo Esperando a que el backend cargue SAM...
 :wait_backend

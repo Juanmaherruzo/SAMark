@@ -1,6 +1,6 @@
 <div align="center">
 
-# SAM Studio
+# SAMark
 
 **Local, privacy-first annotation platform powered by Segment Anything Model 2.1**
 
@@ -24,7 +24,7 @@
 
 ## Overview
 
-SAM Studio brings the assisted-annotation workflow of commercial platforms into your local environment. It uses [SAM 2.1](https://github.com/facebookresearch/sam2) (Meta AI) as its segmentation backbone, wraps it in a FastAPI server with a three-level embedding cache, and exposes a Konva.js canvas frontend for fluid, keyboard-driven annotation.
+SAMark brings the assisted-annotation workflow of commercial platforms into your local environment. It uses [SAM 2.1](https://github.com/facebookresearch/sam2) (Meta AI) as its segmentation backbone, wraps it in a FastAPI server with a three-level embedding cache, and exposes a Konva.js canvas frontend for fluid, keyboard-driven annotation.
 
 Designed for computer vision practitioners who need to label custom datasets — particularly **multi-instance, multi-class** scenes — without uploading sensitive imagery to third-party services.
 
@@ -93,8 +93,8 @@ graph TD
 
 ```bash
 # 1. Clone
-git clone https://github.com/<your-username>/sam-studio.git
-cd sam-studio
+git clone https://github.com/<your-username>/samark.git
+cd samark
 
 # 2. Create the Python environment and install dependencies
 conda create -n sam_studio python=3.11 -y
@@ -190,7 +190,7 @@ The SAM model variant is intentionally hardcoded to **tiny** in `backend/app/con
 ## Project Structure
 
 ```
-sam-studio/
+samark/
 ├── backend/
 │   ├── app/
 │   │   ├── api/            # FastAPI routers (projects, classes, images, annotations, inference, export)

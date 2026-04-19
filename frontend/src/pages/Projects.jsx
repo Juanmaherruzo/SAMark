@@ -31,7 +31,7 @@ export default function Projects() {
 
   return (
     <div className="min-h-screen bg-surface p-8">
-      <h1 className="text-3xl font-bold mb-8">SAM Studio</h1>
+      <h1 className="text-3xl font-bold mb-8">SAMark</h1>
 
       {/* New project form */}
       <div className="bg-panel rounded-lg p-6 mb-8 max-w-md">
