@@ -41,7 +41,6 @@ There are excellent annotation tools out there. SAMark is not trying to replace 
 | Setup complexity | Medium | None | High (Docker stack) | Medium |
 | Cost | Free | Freemium | Free | Free |
 | Runs on 4 GB VRAM laptop GPU | Yes (tiny) | N/A | Yes | Yes |
-| Opinionated forestry-tested workflow | Yes | No | No | No |
 
 If you already live inside Roboflow and your images can leave your machine, stay there — it is a great product. SAMark exists for the cases where they cannot.
 
